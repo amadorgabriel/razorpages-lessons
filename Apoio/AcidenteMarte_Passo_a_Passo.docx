@@ -14,7 +14,7 @@
 2.0 CRIANDO APLICAÇÃO
 
 - PreRequisitos
-- Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201)
+- Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201)	
 - Criando Projeto pelo Terminal 
 
 
@@ -27,3 +27,4 @@
 - Adicionar Models
 - Adicionar Validação Input
 - Adicionar Pesquisa por string (extra)
+- Adicionar uma página de erro (extra)
