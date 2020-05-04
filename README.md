@@ -4,7 +4,8 @@ Projeto FrontEnd com foco em razor syntax, pages views em ASP.NET Core.
 **Sumário**
 - [ ] Pré-Requisitos;
 - [ ] Criando a Aplicação;
-- [ ] Iniciando as Alterações;
+- [ ] Manipulando Estrutura;
+- [ ] Página Inicial Razor;
 
 
 ## Pré-Requesitos
@@ -29,9 +30,44 @@ cd acidenteMarte
 Para rodar sua aplicação digite `dotnet run` e aguarde um pouco, o terminal mostrará duas diferentes urls escolha e acesse uma delas.
 
 
-## Iniciando as Alterações
+## Manipulando Estrutura 
 Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e pastas esse é o minimo para o projeto funcionar, e para saber mais sobre cada um dos items visite [esta página.](https://docs.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-3.1&tabs=visual-studio-code#examine-the-project-files) 
 
-Na pasta mãe crie uma pasta chamada 'Refs' e cole os arquivos [Html/Css](Html_Css/), servirá de referencia para manipular e organizar os arquivos. Sua hierarquia deve estar assim:
+1. Na pasta mãe crie uma pasta chamada 'Refs' e cole os arquivos [Html/Css](https://github.com/amadorsenai/RazorPages_2020_T1/tree/master/Html_Css), servirá de referencia para manipular e organizar os arquivos. Sua hierarquia deve estar assim:
 
- ![Hierarquia](http://https://github.com/amadorsenai/RazorPages_2020_T1/assets/00.png)
+
+ ![Hierarquia](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/00.png)
+
+2. Na pasta **'wwwroot > css'**  substitua o arquivo existente por seu arquivo css da pasta **'Refs'**;
+3. Adequando ao padrão ou arquitetura de projeto MVC substitua o nome da pasta **'Pages'** para **'Views'**;
+4. Na pasta Views exclua as páginas pré-criadas, deixe somente a pasta **'Shared'** e crie outra pasta chamada **'Home'**;
+
+
+## Página Inicial Razor
+> As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
+Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > Index.cshtml***
+
+### Index.cshtml
+- Dentro da sua página **index Html** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado Index.cshtml. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes, pois são componentes que todas as páginas compartilham. 
+
+- E por fim, na primeira linha do arquivo adicione o seguinte código:
+
+```C#
+//Para escrever código C# no arquivo razor use essa estrutura com @{}
+@{ 
+    Layout = "_Layout";
+    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro.
+}
+```
+Este deve ser o resultado:
+
+ ![Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/01.png)
+
+### Layout.cshtml
+
+Voce pode já ter percebido que no caminho **Views > Shared** possuem duas pastas, uma delas chamada ***'_ValidationScripts'*** que pode ser excluida e outra que justamente se chama ***'_Layout.cshtml'*** esse é o modelos que fizemos a referência.
+
+
+-
+-
+-
