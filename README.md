@@ -50,16 +50,20 @@ Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > In
 ### Index.cshtml
 - Dentro da sua página **index Html** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado Index.cshtml. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes, pois são componentes que todas as páginas compartilham. 
 
-- E por fim, na primeira linha do arquivo adicione o seguinte código:
+- E por fim, nas primeiras linhas do arquivo adicione os seguintes códigos:
 
 ```C#
-//Para escrever código C# no arquivo razor use essa estrutura com @{}
-@{ 
+@{  //Para escrever código C# no arquivo razor use essa estrutura com @{}
+    
+    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro a partir de um layout.
     Layout = "_Layout";
-    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro.
+    
+    //Váriavel que carrega o <title> da página;
+    ViewData["Titulo_Página"] = "Home - Página Inicial";
 }
 ```
-Este deve ser o resultado:
+
+Voce pode ver mais sobre ViewData[] [nesse_link]()  Este deve ser o resultado final:
 
  ![Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/01.png)
 
@@ -67,7 +71,8 @@ Este deve ser o resultado:
 
 Voce pode já ter percebido que no caminho **Views > Shared** possuem duas pastas, uma delas chamada ***'_ValidationScripts'*** que pode ser excluida e outra que justamente se chama ***'_Layout.cshtml'*** esse é o modelos que fizemos a referência.
 
+> O Layout é uma estrutura comum de hmtl, por exemplo, quando o nosso index.cshtml é acessada pelo nagevador a página chamará o layout que juntos serão mostrados na tela do computador.
 
--
--
+- **``@RenderBody()``** - Carrega  
+- **``@ViewData``** - 
 -
