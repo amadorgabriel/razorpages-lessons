@@ -1,0 +1,74 @@
+@{  //Para escrever código C# no arquivo razor use essa estrutura com @{}
+    
+    Layout = "_Layout";
+    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro.
+}
+    
+<section class="sectionCadastro">
+    <div class="divTitle">
+        <h2>Conheça a <strong class="destaque"> Scania. </strong> Nos ajude a te ajudar</h2>
+        <p>Conte-nos seu caso, nós iremos ajudar o mais rápido possivel</p>
+    </div>
+
+    <div class="divCadastro">
+        <h3>Relate Casos de acidentes</h3>
+        <form class="formCad" action="">
+            <input class="inputCad" type="text" placeholder="Nome" />
+            <input class="inputCad" type="email" placeholder="Email" name="" id="">
+            <input class="inputCad" type="date" placeholder="Data" name="" id="">
+            <input class="inputCad textBox" type="text" placeholder="Descreva o ocorrido.." name="" id="">
+
+            <input class="btnCad" type="button" value="Informe-nos" />
+        </form>
+    </div>
+</section>
+
+<section class="sectionLista">
+    <div class="headerLista">
+        <h3>Veja Outros Casos</h3>
+        <!-- CIRCULO VERMELHO COM AFTER E BEFORE -->
+        <div>
+            <span class="circle Gray"></span>
+            <span class="circle"></span>
+            <span class="circle Gray"></span>
+        </div>
+    </div>
+
+    <article class="boxLista">
+        <div class="itemLista">
+            <div>
+                <h4>Edna Cavalcante Mendes</h4>
+                    <p>12/03/2020</p>
+            </div>
+
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
+                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
+                molestias.</p>
+            <hr />
+        </div>
+        <div class="itemLista">
+            <div>
+                <h4>Edna Cavalcante Mendes</h4>
+                <p>12/03/2020</p>
+            </div>
+
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
+                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
+                molestias.</p>
+            <hr/>
+        </div>
+        <div class="itemLista">
+            <div>
+                <h4>Edna Cavalcante Mendes</h4>
+                <p>12/03/2020</p>
+            </div>
+
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
+                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
+                molestias.</p>
+        </div>
+    </article>
+</section>        
+    
+
+

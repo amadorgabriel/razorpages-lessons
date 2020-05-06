@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]"</title>
+
+    <link rel="stylesheet" type="text/css" href="~/css/globalStyle.css">
+</head>
+
+<body>
+    <header>
+        @{
+            Html.RenderPartial("_HeaderNavBar");
+        }
+    </header>
+
+    <main>
+       @RenderBody();
+    </main>
+
+    <footer>
+        <p>Todos Direitos Reservados, 2020</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+1.0 INTRODUÇÃO
+- Apresentação pessoal (objetivo, periodo)	
+- Overview .NET 
+		.Core vs Framework
+		.ASP NET (web apps, razor pages)
+- Projeto Scannia
+- Documentação ASP.NET Core 3.1 
+	- Overview (Comparisons Core vs 4.x vs framework)
+		- Get Started
+		- Tutorials > Web apps > Razor Pages 
+		- Tutorials (Microsoft Learn) > Web apps
+		- Web apps
+ 
+2.0 CRIANDO APLICAÇÃO
+
+- PreRequisitos
+- Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201)
+- Criando Projeto pelo Terminal 
+
+
+
+- Abra o Projeto no editor Visual Studio Code
+ 
+
+
+- Criar Razor Page 
+- Adicionar Models
+- Adicionar Validação Input
+- Adicionar Pesquisa por string (extra)
