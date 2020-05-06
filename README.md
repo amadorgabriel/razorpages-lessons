@@ -6,7 +6,13 @@ Passo a passo para a contrução do projeto com foco em razor syntax, pages view
 - [ ] [Criando a Aplicação](#ancora2);
 - [ ] [Manipulando Estrutura](#ancora3);
 - [ ] [Views Razor](#ancora4);
-- [ ] [Controller](#ancora5);
+- [ ] [Controllers](#ancora5);
+- [ ] [Startup](#ancora6);
+- [ ] [Listagem](#ancora7);
+- [ ] [Cadastro](#ancora8);
+- [ ] [Desafio](#ancora8);
+
+
 
 <a id="ancora1" />
 
@@ -162,5 +168,45 @@ public IActionResult Index(){
      return View();
 } 
 ```
+
+
+<a id="ancora6" />
+
+## Startup
+Para enfim rodarmos nosso projeto precisamos dizer qual arquivo deve ser lido primeiro. O ***Startup.cs*** possui as configrações para o projeto rodar, é lá que vamos inserir nossa configuração. Para isso vamos aos passos: 
+
+- No método **Configure Services** (linha 24) configuramos opções espeíficas de serviços, nele vamos retirar o ``services.AddRazorPages()`` e substituir pelo:
+
+```C#
+      //Seta a versão do MVC
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+      //Desabilita opção de roteamento quc conflita com MVC
+      services.AddMvc(option => option.EnableEndpointRouting = false);
+```
+
+- Agora no método **Configure** escolhemos quais configurações queremos fazer uso. Em nossa aplicação não precisaremos de algumas configurações:
+
+```C#
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+      endpoints.MapRazorPages();
+});
+```
+
+devemos ao final do método 'Configure' inserir a configuração que define que quando a aplicação rodar, deverá ser redirecionada através de rotas para o HomeController no método Index(que retorna a página):
+
+```C#
+app.UseMvc(routes =>
+{
+      routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}"); //DEFININDO A PAGINA PRINCIPAL COMO HOME
+});
+```
+
 
 > Rode o projeto com **``dotnet run``** no terminal
