@@ -1,11 +1,12 @@
 # Acidente Marte Web App 
-Projeto FrontEnd com foco em razor syntax, pages views em ASP.NET Core.
+Passo a passo para a contrução do projeto com foco em razor syntax, pages views em ASP.NET Core. 
 
 **Sumário**
 - [ ] Pré-Requisitos;
 - [ ] Criando a Aplicação;
 - [ ] Manipulando Estrutura;
 - [ ] Views Razor;
+- [ ] Controller;
 
 
 ## Pré-Requesitos
@@ -93,9 +94,7 @@ Dentro de **Shared** possuem dois arquivos:
 - [***``asp-action``***](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-form-action-tag-helper) - Define o método que a página será direcionada;
 - [***``@Url.Action``***](https://docs.microsoft.com/en-us/dotnet/api/system.web.mvc.urlhelper.action?view=aspnet-mvc-5.2) - Define o controler e o método que a página será direcionada.
 
-Obs.: Quando clicarmos em um botão da nav será mandada uma requisição para o controller que nos redicionará para a página desejada. 
-
-> De forma simples, no modelo de projeto MVC (Models Views Controllers) os models serão 'objetos', as views serãa as páginas e os ***Controllers*** gerenciarão tarefas como: direcionar o usuário para diferentes páginas, manipular dados, 'conversar' com repositório e por ai vai.. 
+Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para o controller que nos redicionará para a página desejada. 
 
 
 #### Layout.cshtml
@@ -111,6 +110,22 @@ Obs.: Quando clicarmos em um botão da nav será mandada uma requisição para o
 Essa estrutura está estilizada conforme o modelo da aplicação pré-criada portanto para adequar a nossas necessidades devemos:.
 1. Excluir todo o conteúdo(``ctrl + A`` + ``ctrl + X``) e substituir com toda a estrutura do **index.html**;
 2. Exclua agora o que esta dento da tag ``<main>`` deixando-as vazias e inira a função ``@RenderBody()``;
-3. Dentro do header ``<title>`` modifique o texto por: ``<title> @ViewData["Title"] </title";
-4. Dentro do header ``<link>`` na propriedade **href** altere o novo caminho do css substituindo o **'./'** por **'~/'**``<link href="~/css/globalStyle.css">`` (O til encontra o caminho independente do ponto de partida);
--
+3. Dentro do head ``<title>`` modifique o texto por: ``<title> @ViewData["Title"] </title";
+4. Dentro do head ``<link>`` na propriedade **href** altere o novo caminho do css substituindo o **'./'** por **'~/'**``<link href="~/css/globalStyle.css">`` (O til encontra o caminho independente do ponto de partida);
+5. Substitua o que está dentro da tag ``<header>`` por:
+
+````html
+@{
+    //Irá carregar a navBar que criada
+    Html.RenderPartial("_HeaderNavBar");
+}
+```
+
+Assim deve estar o layout.cshtml:
+
+ ![Layout.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/02.png)
+
+
+## Controllers
+
+La vamos nós..
