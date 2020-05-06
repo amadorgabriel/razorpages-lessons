@@ -5,16 +5,16 @@ Projeto FrontEnd com foco em razor syntax, pages views em ASP.NET Core.
 - [ ] Pré-Requisitos;
 - [ ] Criando a Aplicação;
 - [ ] Manipulando Estrutura;
-- [ ] Página Inicial Razor;
+- [ ] Views Razor;
 
 
 ## Pré-Requesitos
 - Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201);
 - Ter Instalado Visual Studio Code atualizado;
-- É recomendavél já ter criado o código Html/Css;
+- É recomendavél ter em mãos o código Html/Css;
 
 ## Criando a Aplicação
-Iremos criar uma aplicação pré-pronta para facilitar o processo, portanto **abra o terminal no diretório aonde deseja salvar seu projeto** e rode os seguintes comantos:
+Iremos criar uma aplicação pré-pronta para facilitar o aprendizado, portanto **abra o terminal no diretório aonde deseja salvar seu projeto** e rode os seguintes comantos:
 
 ```
 dotnet new webApp -o acidenteMarte 
@@ -39,16 +39,16 @@ Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e
  ![Hierarquia](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/00.png)
 
 2. Na pasta **'wwwroot > css'**  substitua o arquivo existente por seu arquivo css da pasta **'Refs'**;
-3. Adequando ao padrão ou arquitetura de projeto MVC substitua o nome da pasta **'Pages'** para **'Views'**;
-4. Na pasta Views exclua as páginas pré-criadas, deixe somente a pasta **'Shared'** e crie outra pasta chamada **'Home'**;
+3. Adequando ao padrão ou arquitetura de projeto [MVC](https://tableless.com.br/mvc-afinal-e-o-que/) substitua o nome da pasta **'Pages'** para **'Views'**;
+4. Na pasta Views exclua as demais páginas pré-criadas, deixe somente a pasta **'Shared'**(Esta pasta armazena estruturas de html que se repetem entre páginas como navbar e/ou footer) e crie outra pasta chamada **'Home'**;
 
 
-## Página Inicial Razor
+## Views Razor
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
 Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > Index.cshtml***
 
-### Index.cshtml
-- Dentro da sua página **index Html** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado Index.cshtml. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes, pois são componentes que todas as páginas compartilham. 
+### Home 
+- Dentro da sua pasta 'Refs' acesse a página **index.html,** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado **Index.cshtml**. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes. 
 
 - E por fim, nas primeiras linhas do arquivo adicione os seguintes códigos:
 
@@ -57,22 +57,60 @@ Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > In
     
     //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro a partir de um layout.
     Layout = "_Layout";
-    
-    //Váriavel que carrega o <title> da página;
-    ViewData["Titulo_Página"] = "Home - Página Inicial";
 }
 ```
 
-Voce pode ver mais sobre ViewData[] [nesse_link]()  Este deve ser o resultado final:
+No arquivo há o conteúdo da página porém está pendente a estutura básica do html, essa estrutura se encontrará no arquivo **Layout.cshtml** que o referênciamos com o código acima. A prática de separar partes do código é recomendada pois deixa o código mais fácil de ser lido. Neste passo este deve ser o resultado final:
 
  ![Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/01.png)
 
-### Layout.cshtml
+### Shared
+Com a página inicial criada vamos codar a **_HeaderNavBar** e o **_layout** para podermos rodar o projeto.
 
-Voce pode já ter percebido que no caminho **Views > Shared** possuem duas pastas, uma delas chamada ***'_ValidationScripts'*** que pode ser excluida e outra que justamente se chama ***'_Layout.cshtml'*** esse é o modelos que fizemos a referência.
+Dentro de **Shared** possuem dois arquivos:
+- ***'_ValidationScripts'*** (a ser excluída);
+- ***'_Layout.cshtml'*** (esse é o modelos que fizemos a referência).
 
-> O Layout é uma estrutura comum de hmtl, por exemplo, quando o nosso index.cshtml é acessada pelo nagevador a página chamará o layout que juntos serão mostrados na tela do computador.
+#### _HeaderNavBar.cshtml
 
-- **``@RenderBody()``** - Carrega  
-- **``@ViewData``** - 
+1. Crie o arquivo ***'_HeaderNavBar.cshtml'*** dentro da pasta shared, este será o componente navBar;
+2. Dentro dele insira sua ``<nav>`` do **index.html**;
+3. Teremos de alternar os caminhos ``href`` de ambas tags **``<a>``** de modo que este seja o resultado final:
+
+```Html
+<nav>
+    <h1>Scania</h1>
+    <div>
+        <ul class="ulMenu">
+            <li class="liMenu"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="liMenu"><a href='@Url.Action("Index", "Centros")'>Centros de Comunicação</a></li>
+        </ul>
+    </div>
+</nav>
+```
+
+- [***``asp-controller``***](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-form-action-tag-helper) - Define o controler que a página será direcionada;
+- [***``asp-action``***](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-form-action-tag-helper) - Define o método que a página será direcionada;
+- [***``@Url.Action``***](https://docs.microsoft.com/en-us/dotnet/api/system.web.mvc.urlhelper.action?view=aspnet-mvc-5.2) - Define o controler e o método que a página será direcionada.
+
+Obs.: Quando clicarmos em um botão da nav será mandada uma requisição para o controller que nos redicionará para a página desejada. 
+
+> De forma simples, no modelo de projeto MVC (Models Views Controllers) os models serão 'objetos', as views serãa as páginas e os ***Controllers*** gerenciarão tarefas como: direcionar o usuário para diferentes páginas, manipular dados, 'conversar' com repositório e por ai vai.. 
+
+
+#### Layout.cshtml
+
+> O [Layout](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/layout?view=aspnetcore-3.1#what-is-a-layout) é onde cada seção de uma página se encontra, é também a base da nossa página home. Se navegar pelo arquivo verá que é a estrutura html pendente na página que criamos com a adição de alguns novos conceitos: 
+
+
+- **``@ViewData[]``** - Váriavel que pode armazenar diferentes tipos de dados, nesse caso o texto do ``<title>`` da página;
+- **``@RenderBody()``** - Renderiza/carrega o conteúdo das páginas que referenciam o ``_Layout.cshtml``;  
+- **``@RenderSection()``** - Permite determinar se renderiza/carrega seções específicas dentro da página;
+
+
+Essa estrutura está estilizada conforme o modelo da aplicação pré-criada portanto para adequar a nossas necessidades devemos:.
+1. Excluir todo o conteúdo(``ctrl + A`` + ``ctrl + X``) e substituir com toda a estrutura do **index.html**;
+2. Exclua agora o que esta dento da tag ``<main>`` deixando-as vazias e inira a função ``@RenderBody()``;
+3. Dentro do header ``<title>`` modifique o texto por: ``<title> @ViewData["Title"] </title";
+4. Dentro do header ``<link>`` na propriedade **href** altere o novo caminho do css substituindo o **'./'** por **'~/'**``<link href="~/css/globalStyle.css">`` (O til encontra o caminho independente do ponto de partida);
 -
