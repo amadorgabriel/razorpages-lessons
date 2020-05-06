@@ -2,17 +2,20 @@
 Passo a passo para a contrução do projeto com foco em razor syntax, pages views em ASP.NET Core. 
 
 **Sumário**
-- [ ] Pré-Requisitos;
-- [ ] Criando a Aplicação;
-- [ ] Manipulando Estrutura;
-- [ ] Views Razor;
-- [ ] Controller;
+- [ ] [Pré-Requisitos](#ancora1);
+- [ ] [Criando a Aplicação](#ancora2);
+- [ ] [Manipulando Estrutura](#ancora3);
+- [ ] [Views Razor](#ancora4);
+- [ ] [Controller](#ancora5);
 
+<a id="ancora1" />
 
 ## Pré-Requesitos
 - Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201);
 - Ter Instalado Visual Studio Code atualizado;
 - É recomendavél ter em mãos o código Html/Css;
+
+<a id="ancora2" />
 
 ## Criando a Aplicação
 Iremos criar uma aplicação pré-pronta para facilitar o aprendizado, portanto **abra o terminal no diretório aonde deseja salvar seu projeto** e rode os seguintes comantos:
@@ -31,6 +34,8 @@ cd acidenteMarte
 Para rodar sua aplicação digite `dotnet run` e aguarde um pouco, o terminal mostrará duas diferentes urls escolha e acesse uma delas.
 
 
+<a id="ancora3" />
+
 ## Manipulando Estrutura 
 Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e pastas esse é o minimo para o projeto funcionar, e para saber mais sobre cada um dos items visite [esta página.](https://docs.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-3.1&tabs=visual-studio-code#examine-the-project-files) 
 
@@ -43,6 +48,8 @@ Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e
 3. Adequando ao padrão ou arquitetura de projeto [MVC](https://tableless.com.br/mvc-afinal-e-o-que/) substitua o nome da pasta **'Pages'** para **'Views'**;
 4. Na pasta Views exclua as demais páginas pré-criadas, deixe somente a pasta **'Shared'**(Esta pasta armazena estruturas de html que se repetem entre páginas como navbar e/ou footer) e crie outra pasta chamada **'Home'**;
 
+
+<a id="ancora4" />
 
 ## Views Razor
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
@@ -114,7 +121,7 @@ Essa estrutura está estilizada conforme o modelo da aplicação pré-criada por
 4. Dentro do head ``<link>`` na propriedade **href** altere o novo caminho do css substituindo o **'./'** por **'~/'**``<link href="~/css/globalStyle.css">`` (O til encontra o caminho independente do ponto de partida);
 5. Substitua o que está dentro da tag ``<header>`` por:
 
-````html
+``` 
 @{
     //Irá carregar a navBar que criada
     Html.RenderPartial("_HeaderNavBar");
@@ -125,6 +132,8 @@ Assim deve estar o layout.cshtml:
 
  ![Layout.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/02.png)
 
+
+<a id="ancora5" />
 
 ## Controllers
 
