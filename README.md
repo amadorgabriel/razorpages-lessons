@@ -10,7 +10,7 @@ Passo a passo para a contrução do projeto com foco em razor syntax, pages view
 
 <a id="ancora1" />
 
-## Pré-Requesitos
+## Pré-Requisitos
 - Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201);
 - Ter Instalado Visual Studio Code atualizado;
 - É recomendavél ter em mãos o código Html/Css;
@@ -55,7 +55,7 @@ Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
 Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > Index.cshtml***
 
-### Home 
+### 1. Home 
 - Dentro da sua pasta 'Refs' acesse a página **index.html,** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado **Index.cshtml**. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes. 
 
 - E por fim, nas primeiras linhas do arquivo adicione os seguintes códigos:
@@ -72,14 +72,14 @@ No arquivo há o conteúdo da página porém está pendente a estutura básica d
 
  ![Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/01.png)
 
-### Shared
+### 2. Shared
 Com a página inicial criada vamos codar a **_HeaderNavBar** e o **_layout** para podermos rodar o projeto.
 
 Dentro de **Shared** possuem dois arquivos:
 - ***'_ValidationScripts'*** (a ser excluída);
 - ***'_Layout.cshtml'*** (esse é o modelos que fizemos a referência).
 
-#### _HeaderNavBar.cshtml
+#### 2.0 _HeaderNavBar.cshtml
 
 1. Crie o arquivo ***'_HeaderNavBar.cshtml'*** dentro da pasta shared, este será o componente navBar;
 2. Dentro dele insira sua ``<nav>`` do **index.html**;
@@ -104,7 +104,7 @@ Dentro de **Shared** possuem dois arquivos:
 Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para o controller que nos redicionará para a página desejada. 
 
 
-#### Layout.cshtml
+#### 2.1 Layout.cshtml
 
 > O [Layout](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/layout?view=aspnetcore-3.1#what-is-a-layout) é onde cada seção de uma página se encontra, é também a base da nossa página home. Se navegar pelo arquivo verá que é a estrutura html pendente na página que criamos com a adição de alguns novos conceitos: 
 
@@ -136,5 +136,31 @@ Assim deve estar o layout.cshtml:
 <a id="ancora5" />
 
 ## Controllers
+Os controlers como já dito irão  fazer o trabalho duro de manipular dados, redirecionar paginas etc. Por hora queremos apenas que façam aparecer nossas telas no navegador quando rodarmos o projeto. Para iniciar verifique se sua arquitetura de pastas está compativel a essa:
 
-La vamos nós..
+*Adicionei na pasta mãe o diretório **Controllers > HomeController.cs** *
+
+![HierarquiaPastas](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/03.png)
+
+1. Vamos começar criando a estrutura base de um controlador dentro do **HomeController.cs**:
+
+```C#
+using Microsoft.AspNetCore.Mvc;
+
+namespace acidenteMarte.Controllers{
+    public class HomeController : Controller{
+        
+    }
+}
+```
+
+2. Dentro da classe criada insira o método **Index()** que quando chamado define o nome da variável 'Title' e retorna a view com o nome do método;
+
+```C#
+public IActionResult Index(){
+     ViewData["Title"] = "Home - Página Inicial";
+     return View();
+} 
+```
+
+> Rode o projeto com **``dotnet run``** no terminal
