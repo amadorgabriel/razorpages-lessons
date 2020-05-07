@@ -1,29 +1,30 @@
-# Acidente Marte Web App 
-Passo a passo para a contrução do projeto com foco em razor syntax, pages views em ASP.NET Core. 
+# Acidente Marte Web App ![Tech ASP.NET](https://img.shields.io/badge/tech-asp.net-brightgreen.svg?style=flat) ![Tech Razor](https://img.shields.io/badge/tech-razor-brightgreen.svg?style=flat) ![App Web](https://img.shields.io/badge/app-web-brightgreen.svg?style=flat) ![Tech .Net](https://img.shields.io/badge/tech-.net-brightgreen.svg?style=flat) 
 
-**Sumário**
+Passo a passo para a contrução do projeto contido neste repositório. Foco em razor pages sem repositories e database(dados fixos)
+
+**Sumário** :pushpin:
 - [ ] [Pré-Requisitos](#ancora1);
 - [ ] [Criando a Aplicação](#ancora2);
 - [ ] [Manipulando Estrutura](#ancora3);
-- [ ] [Views Razor](#ancora4);
+- [ ] [Criando Models](#ancora4)
 - [ ] [Controllers](#ancora5);
-- [ ] [Startup](#ancora6);
-- [ ] [Listagem](#ancora7);
-- [ ] [Cadastro](#ancora8);
-- [ ] [Desafio](#ancora8);
+- [ ] [Views Razor](#ancora);
+  - [Listando Items](#ancora);
+- [ ] [Configurando o Startup](#ancora);
+- [ ] [Desafio](#ancora);
 
 
 
 <a id="ancora1" />
 
-## Pré-Requisitos
+## Pré-Requisitos :shipit: 
 - Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201);
 - Ter Instalado Visual Studio Code atualizado;
 - É recomendavél ter em mãos o código Html/Css;
 
 <a id="ancora2" />
 
-## Criando a Aplicação
+## Criando a Aplicação :clipboard:
 Iremos criar uma aplicação pré-pronta para facilitar o aprendizado, portanto **abra o terminal no diretório aonde deseja salvar seu projeto** e rode os seguintes comantos:
 
 ```
@@ -37,25 +38,84 @@ cd acidenteMarte
 - `cd` ou **Change directory** levará para um caminho destino;
 - `acidenteMarte` será o nome do nosso projeto.
 
-Para rodar sua aplicação digite `dotnet run` e aguarde um pouco, o terminal mostrará duas diferentes urls escolha e acesse uma delas.
+Para rodar sua aplicação digite `dotnet run` e aguarde um pouco, o terminal mostrará duas diferentes urls escolha e uma acesse.
 
 
 <a id="ancora3" />
 
-## Manipulando Estrutura 
+## Manipulando Estrutura :open_file_folder:
 Abra seu projeto no Visual Studio Code, veja que foram criadas alguns arquivos e pastas esse é o minimo para o projeto funcionar, e para saber mais sobre cada um dos items visite [esta página.](https://docs.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-3.1&tabs=visual-studio-code#examine-the-project-files) 
 
-1. Na pasta mãe crie uma pasta chamada 'Refs' e cole os arquivos [Html/Css](https://github.com/amadorsenai/RazorPages_2020_T1/tree/master/Html_Css), servirá de referencia para manipular e organizar os arquivos. Sua hierarquia deve estar assim:
-
+1. Na pasta mãe crie uma pasta chamada 'Refs' e cole os arquivos [Html/Css](https://github.com/amadorsenai/RazorPages_2020_T1/tree/master/Html_Css), servirá de referencia para manipular e organizar os arquivos. 
+2. Na pasta **'wwwroot > css'**  substitua o arquivo existente por seu ***arquivo css também da pasta Refs'**;
+3. Adequando ao padrão ou arquitetura de projeto [MVC](https://tableless.com.br/mvc-afinal-e-o-que/) substitua o nome da pasta **'Pages'** para **'Views'**;
+4. Na pasta Views exclua as demais páginas pré-criadas, deixe somente a pasta **'Shared'** e crie outra pasta chamada **'Home'**;
+5. Na pasta mãe crie duas outras pastas, **'Controllers'** e **'Models'** usaremo-as depois. Sua hierarquia deve estar assim:
 
  ![Hierarquia](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/00.png)
 
-2. Na pasta **'wwwroot > css'**  substitua o arquivo existente por seu arquivo css da pasta **'Refs'**;
-3. Adequando ao padrão ou arquitetura de projeto [MVC](https://tableless.com.br/mvc-afinal-e-o-que/) substitua o nome da pasta **'Pages'** para **'Views'**;
-4. Na pasta Views exclua as demais páginas pré-criadas, deixe somente a pasta **'Shared'**(Esta pasta armazena estruturas de html que se repetem entre páginas como navbar e/ou footer) e crie outra pasta chamada **'Home'**;
-
 
 <a id="ancora4" />
+
+## Criando Models :closed_book:
+Nossa aplicação listará casos de acidentes, devemos criar nossos models/modelos pois todos casos cadastrados possuem as mesmas características, por exemplo:
+
+**Características de um Relato de Acidente:**
+- Nome relator;
+- Data ocorrido;
+- Relato em si (texto);
+
+Para criar o model na prática, primeiro na pasta **'Models'** crie o arquivo **'RelatoModel.cs'**. Dentro dele adicione o seguinte código para criar uma classe pública (pode ser acessada de outro arquivo) com os atributos de um caso de acidente.
+
+
+```C#
+using System;
+
+namespace acidenteMarte.Models {
+    public class RelatoModel{
+        
+        public string Id {get; set;}
+        public string NomeRelator {get; set;}
+        public DateTime Data {get; set;}
+        public string Mensagem {get;set;}
+
+    }
+}
+```
+
+
+<a id="ancora5" />
+
+## Controllers :gear:
+> Os controlers como irão fazer o trabalho duro de manipular dados assim como redirecionar páginas. Cada página terá o seu próprio controlador.  
+
+1. Dentro da pasta 'Controllers' adicione o arquivo **HomeController.cs**;
+
+1. Vamos começar criando a estrutura base de um controlador:
+
+```C#
+using Microsoft.AspNetCore.Mvc;
+
+namespace acidenteMarte.Controllers{
+    public class HomeController : Controller{
+        
+    }
+}
+```
+
+2. Dentro da classe criada insira o método **Index()** que seta a variável 'Title' e retorna a página com o nome do método; O **ViewData** nada mais é do que uma variável que intercambia informações entre páginas, essa variavel será usada depois para definir a tag `<title>` da página;
+
+```C#
+public IActionResult Index(){
+     ViewData["Title"] = "Home - Página Inicial";
+      return View();
+} 
+```
+
+3. Agora vamos criar o método de Cadastro..
+
+
+
 
 ## Views Razor
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
@@ -139,40 +199,11 @@ Assim deve estar o layout.cshtml:
  ![Layout.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/02.png)
 
 
-<a id="ancora5" />
-
-## Controllers
-Os controlers como já dito irão  fazer o trabalho duro de manipular dados, redirecionar paginas etc. Por hora queremos apenas que façam aparecer nossas telas no navegador quando rodarmos o projeto. Para iniciar verifique se sua arquitetura de pastas está compativel a essa:
-
-*Adicionei na pasta mãe o diretório **Controllers > HomeController.cs** *
-
-![HierarquiaPastas](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/03.png)
-
-1. Vamos começar criando a estrutura base de um controlador dentro do **HomeController.cs**:
-
-```C#
-using Microsoft.AspNetCore.Mvc;
-
-namespace acidenteMarte.Controllers{
-    public class HomeController : Controller{
-        
-    }
-}
-```
-
-2. Dentro da classe criada insira o método **Index()** que quando chamado define o nome da variável 'Title' e retorna a view com o nome do método;
-
-```C#
-public IActionResult Index(){
-     ViewData["Title"] = "Home - Página Inicial";
-     return View();
-} 
-```
 
 
 <a id="ancora6" />
 
-## Startup
+## Configurando o Startup
 Para enfim rodarmos nosso projeto precisamos dizer qual arquivo deve ser lido primeiro. O ***Startup.cs*** possui as configrações para o projeto rodar, é lá que vamos inserir nossa configuração. Para isso vamos aos passos: 
 
 - No método **Configure Services** (linha 24) configuramos opções espeíficas de serviços, nele vamos retirar o ``services.AddRazorPages()`` e substituir pelo:
@@ -209,4 +240,9 @@ app.UseMvc(routes =>
 ```
 
 
-> Rode o projeto com **``dotnet run``** no terminal
+> Parabéns, rode o projeto com **``dotnet run``** no terminal
+
+
+<a id="ancota 7"/>
+
+## DESAFIO
