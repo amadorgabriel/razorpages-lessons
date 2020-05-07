@@ -11,9 +11,11 @@
 
 <body>
     <header>
-        @{
+        @* @{
             Html.RenderPartial("_HeaderNavBar");
-        }
+        }  *@
+
+        <partial name="_HeaderNavBar.cshtml" >
     </header>
 
     <main>
