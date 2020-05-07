@@ -6,9 +6,9 @@ Passo a passo para a contrução do projeto contido neste repositório. Foco em 
 - [ ] [Pré-Requisitos](#ancora1);
 - [ ] [Criando a Aplicação](#ancora2);
 - [ ] [Manipulando Estrutura](#ancora3);
-- [ ] [Criando Models](#ancora4)
+- [ ] [Criando Models](#ancora4);
 - [ ] [Controllers](#ancora5);
-- [ ] [Views Razor](#ancora);
+- [ ] [Views Razor](#ancora6);
   - [Listando Items](#ancora);
 - [ ] [Configurando o Startup](#ancora);
 - [ ] [Desafio](#ancora);
@@ -74,14 +74,26 @@ using System;
 namespace acidenteMarte.Models {
     public class RelatoModel{
         
-        public string Id {get; set;}
+        public int Id {get; set;}
         public string NomeRelator {get; set;}
+        public string Email {get; set;}
         public DateTime Data {get; set;}
         public string Mensagem {get;set;}
+        
+        //CONSTRUTOR - Método que facilita a criação de objetos;
+        public RelatoModel(string nome, string email, DateTime data, string msg)
+        {
+            this.NomeRelator = nome;
+            this.Email = email;
+            this.Data = data;
+            this.Mensagem = msg;
+        }
 
     }
 }
 ```
+
+- Saiba mais sobre construtores ![aqui](https://docs.microsoft.com/pt-br/dotnet/csharp/programming-guide/classes-and-structs/constructors)
 
 
 <a id="ancora5" />
@@ -89,7 +101,7 @@ namespace acidenteMarte.Models {
 ## Controllers :gear:
 > Os controlers como irão fazer o trabalho duro de manipular dados assim como redirecionar páginas. Cada página terá o seu próprio controlador.  
 
-1. Dentro da pasta 'Controllers' adicione o arquivo **HomeController.cs**;
+Dentro da pasta 'Controllers' adicione o arquivo **HomeController.cs**;
 
 1. Vamos começar criando a estrutura base de um controlador:
 
@@ -103,19 +115,60 @@ namespace acidenteMarte.Controllers{
 }
 ```
 
-2. Dentro da classe criada insira o método **Index()** que seta a variável 'Title' e retorna a página com o nome do método; O **ViewData** nada mais é do que uma variável que intercambia informações entre páginas, essa variavel será usada depois para definir a tag `<title>` da página;
+2. Agora vamos criar nossas listas de acidentes. Nossa aplicação não terá um Banco de Dados para receber e cadastrar informações, os dados serão fixos.
+
+```C#
+        //Cria a Lista
+        List<RelatoModel> listaRelatos = new List<RelatoModel> ();
+        
+        //Cria cada Relato
+        RelatoModel relato1 = new RelatoModel("a", "a@a.com", DateTime.Now(), "aa");
+        RelatoModel relato2 = new RelatoModel("b", "b@b.com", DateTime.Now(), "bb");
+        RelatoModel relato3 = new RelatoModel("c", "c@c.com", DateTime.Now(), "cc");
+        
+        //Adiciona os relatos nas listas
+        listaRelatos.Add(relato1);
+        listaRelatos.Add(relato2);
+        listaRelatos.Add(relato3);
+```
+
+3. Dentro da classe criada insira o método **Index()**:
 
 ```C#
 public IActionResult Index(){
+     //Armazenao que será a tag '<title>' do html
      ViewData["Title"] = "Home - Página Inicial";
-      return View();
+     
+     //Armazena a lista de relatos
+     ViewData["ListaAcidentes"] = listaRelatos;
+     
+     //Direciona para o index.cshtml
+     return View();
 } 
 ```
 
-3. Agora vamos criar o método de Cadastro..
+3. Agora vamos criar o método de Cadastro:
 
+- `[HttpPost]` - Define o tipo de [webRequest](http://www.macoratti.net/16/11/c_webreq1.htm), isto é se recebe, envia, atualiza ou deleta dados. 
+- [`IFormCollection`](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformcollection?view=aspnetcore-3.1) - Dados de um `<form>` transportafo pela url.
+- `return View(nomePagina)` - Retorna a página com nome especificado, caso esteja vazio será retornada a página com o nome do método pai.
 
+```C#
+[HttpPost]
+public IActionResult Cadastrar(IFormCollection formulario){
+    //Cria objeto e atribui valores
+    RelatoModel novoRelato = new RelatoModel();
+    novoRelato.NomeRelator = form["nome"];
+    novoRelato.Email = form["email"];
+    novoRelato.Data = form["data"];
+    novoRelato.Mensagem = form["msg"];
 
+    listaRelatos.Add(novoRelato);
+    return View("Index");
+}
+```
+
+<a id="ancora6" />
 
 ## Views Razor
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
