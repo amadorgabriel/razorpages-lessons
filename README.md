@@ -9,8 +9,9 @@ Passo a passo para a contrução do projeto contido neste repositório. Foco em 
 - [ ] [Criando Models](#ancora4);
 - [ ] [Controllers](#ancora5);
 - [ ] [Views Razor](#ancora6);
-  - [Listando Items](#ancora);
-- [ ] [Configurando o Startup](#ancora);
+    - [Home](#subancora0);
+    - [Shared](#subancora1);
+- [ ] [Configurando o Startup](#ancora7);
 - [ ] [Desafio](#ancora);
 
 
@@ -20,7 +21,7 @@ Passo a passo para a contrução do projeto contido neste repositório. Foco em 
 ## Pré-Requisitos :shipit: 
 - Ter Instalado .NET SDK (Software Development Kit) atualizado (3.1.201);
 - Ter Instalado Visual Studio Code atualizado;
-- É recomendavél ter em mãos o código Html/Css;
+- Ter em mãos o código Html/Css concluído;
 
 <a id="ancora2" />
 
@@ -93,7 +94,7 @@ namespace acidenteMarte.Models {
 }
 ```
 
-- Saiba mais sobre construtores ![aqui](https://docs.microsoft.com/pt-br/dotnet/csharp/programming-guide/classes-and-structs/constructors)
+- Saiba mais sobre construtores [aqui](https://docs.microsoft.com/pt-br/dotnet/csharp/programming-guide/classes-and-structs/constructors)
 
 
 <a id="ancora5" />
@@ -170,39 +171,70 @@ public IActionResult Cadastrar(IFormCollection formulario){
 
 <a id="ancora6" />
 
-## Views Razor
+## Views Razor :computer:	
 > As páginas razor misturam a sintaxe do C# com HTML por isso os arquivos razor possui a terminação '.cshtml'. :bulb: 
 Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > Index.cshtml***
 
-### 1. Home 
-- Dentro da sua pasta 'Refs' acesse a página **index.html,** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado **Index.cshtml**. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes. 
+<a id="subancora0" />
 
-- E por fim, nas primeiras linhas do arquivo adicione os seguintes códigos:
+### Home 
+ 1. Acesse a página **index.html,** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado **Index.cshtml**. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes. Nas primeiras linhas do arquivo adicione os seguintes códigos:
 
 ```C#
 @{  //Para escrever código C# no arquivo razor use essa estrutura com @{}
     
-    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro a partir de um layout.
+    //Isto define usaremos um modelo para página com nome '_Layout.cshtml' 
     Layout = "_Layout";
+    
+    //Armazena em uma variável a lista criada no HomeController
+    var listaAcidente = ViewData["ListaAcidentes"];
+
 }
 ```
 
-No arquivo há o conteúdo da página porém está pendente a estutura básica do html, essa estrutura se encontrará no arquivo **Layout.cshtml** que o referênciamos com o código acima. A prática de separar partes do código é recomendada pois deixa o código mais fácil de ser lido. Neste passo este deve ser o resultado final:
+2. Vamos fazer dois ajustes para tornar a página dinâmica. Primeiro encontre no arquivo o formulário com `class="formCad"` e insira dois atributos que farão que os **dados sejam enviados ao controller quanto o botão for pressionado:**
 
- ![Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/01.png)
+```Html
+<form class="formCad" method="POST" action='@Url.Action("Cadastrar","Home")'>
+```
 
-### 2. Shared
-Com a página inicial criada vamos codar a **_HeaderNavBar** e o **_layout** para podermos rodar o projeto.
+3. Para finalizar a Home falta apenas a listagem, para isso encontre a `<div>` com `class="boxLista"` e modifique seu conteúdo de modo que fique desta forma:
 
-Dentro de **Shared** possuem dois arquivos:
-- ***'_ValidationScripts'*** (a ser excluída);
-- ***'_Layout.cshtml'*** (esse é o modelos que fizemos a referência).
+```C#
+<article class="boxLista">
 
-#### 2.0 _HeaderNavBar.cshtml
+    @foreach (var item in listaAcidente)
+    {
+        <div class="itemLista">
+            <div>
+                <h4>@item.NomeRelator</h4>
+                <p>@item.Data</p>
+            </div>
 
-1. Crie o arquivo ***'_HeaderNavBar.cshtml'*** dentro da pasta shared, este será o componente navBar;
+            <p>@item.Mensagem</p>
+            <hr />
+        </div>
+      }
+       
+</article>
+```
+
+> Veja que misturando o C# com html a página fica mais dinâmica pois não importam quantos items tenha a lista o `foreach` irá criar uma nova div com os dados correspondentes. Compare aqui, este deve ser o resultado final do arquivo [Index.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/Projeto%20Razor/acidenteMarte/Views/Home/Index.cshtml)
+
+<a id="subancora1" />
+
+### Shared
+> Esta pasta armazena os componentes que se repetem ou são compartilhados entre as páginas, isto é a navbar o Layout e em algumas vezez até o footer.
+
+Com a página inicial criada vamos criar o **_HeaderNavBar** e o **_layout**. Dentro de **Shared** possuem dois arquivos:
+- ***'_ValidationScripts'*** (a ser excluído);
+- ***'_Layout.cshtml'*** (esse é o modelos da página Home que fizemos a referência).
+
+#### _HeaderNavBar.cshtml
+
+1. Crie o arquivo ***'_HeaderNavBar.cshtml'*** dentro da pasta **Shared**, este será o componente navBar;
 2. Dentro dele insira sua ``<nav>`` do **index.html**;
-3. Teremos de alternar os caminhos ``href`` de ambas tags **``<a>``** de modo que este seja o resultado final:
+3. Teremos de alterar os caminhos **href** de ambas tags **``<a>``** de modo que este seja o resultado final:
 
 ```Html
 <nav>
@@ -223,21 +255,21 @@ Dentro de **Shared** possuem dois arquivos:
 Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para o controller que nos redicionará para a página desejada. 
 
 
-#### 2.1 Layout.cshtml
+#### Layout.cshtml
 
 > O [Layout](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/layout?view=aspnetcore-3.1#what-is-a-layout) é onde cada seção de uma página se encontra, é também a base da nossa página home. Se navegar pelo arquivo verá que é a estrutura html pendente na página que criamos com a adição de alguns novos conceitos: 
 
 
-- **``@ViewData[]``** - Váriavel que pode armazenar diferentes tipos de dados, nesse caso o texto do ``<title>`` da página;
+- **``@ViewData[]``** - Váriavel que viaja entre Controller e Views e pode armazenar diferentes tipos de dados;
 - **``@RenderBody()``** - Renderiza/carrega o conteúdo das páginas que referenciam o ``_Layout.cshtml``;  
 - **``@RenderSection()``** - Permite determinar se renderiza/carrega seções específicas dentro da página;
 
 
-Essa estrutura está estilizada conforme o modelo da aplicação pré-criada portanto para adequar a nossas necessidades devemos:.
-1. Excluir todo o conteúdo(``ctrl + A`` + ``ctrl + X``) e substituir com toda a estrutura do **index.html**;
-2. Exclua agora o que esta dento da tag ``<main>`` deixando-as vazias e inira a função ``@RenderBody()``;
-3. Dentro do head ``<title>`` modifique o texto por: ``<title> @ViewData["Title"] </title";
-4. Dentro do head ``<link>`` na propriedade **href** altere o novo caminho do css substituindo o **'./'** por **'~/'**``<link href="~/css/globalStyle.css">`` (O til encontra o caminho independente do ponto de partida);
+Essa estrutura está estilizada conforme o modelo da aplicação pré-criada portanto devemos adequar a nossas necessidades:
+1. Exclua todo o conteúdo e substitua pelo que se encontra no **index.html**;
+2. Exclua agora o que esta dento da tag ``<main>`` e inira a função ``@RenderBody()``;
+3. Dentro do head ``<title>`` modifique o texto pela variável ``<title> @ViewData["Title"] </title``;
+4. Insira o novo caminho do css dentro ``<link>`` na propriedade **href** substituindo o **'./'** por **'~/'** assim como ``<link href="~/css/globalStyle.css">`` (O til encontra o caminho do arquivo independente do ponto de partida);
 5. Substitua o que está dentro da tag ``<header>`` por:
 
 ``` 
@@ -252,11 +284,9 @@ Assim deve estar o layout.cshtml:
  ![Layout.cshtml](https://github.com/amadorsenai/RazorPages_2020_T1/blob/master/assets/02.png)
 
 
+<a id="ancora7" />
 
-
-<a id="ancora6" />
-
-## Configurando o Startup
+## Configurando o Startup :scroll:
 Para enfim rodarmos nosso projeto precisamos dizer qual arquivo deve ser lido primeiro. O ***Startup.cs*** possui as configrações para o projeto rodar, é lá que vamos inserir nossa configuração. Para isso vamos aos passos: 
 
 - No método **Configure Services** (linha 24) configuramos opções espeíficas de serviços, nele vamos retirar o ``services.AddRazorPages()`` e substituir pelo:
@@ -281,7 +311,7 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
-devemos ao final do método 'Configure' inserir a configuração que define que quando a aplicação rodar, deverá ser redirecionada através de rotas para o HomeController no método Index(que retorna a página):
+ - Devemos ao final do método 'Configure' inserir a configuração que define que quando a aplicação rodar, deverá ser redirecionada através de rotas para o HomeController no método Index(que retorna a página):
 
 ```C#
 app.UseMvc(routes =>
@@ -293,9 +323,15 @@ app.UseMvc(routes =>
 ```
 
 
-> Parabéns, rode o projeto com **``dotnet run``** no terminal
+:tada: Parabéns você concluiu o projeto, e persistiu até o final :tada:,  agora rode o projeto com **``dotnet run``** no terminal e aproveie!
 
 
-<a id="ancota 7"/>
+<a id="ancora7"/>
 
-## DESAFIO
+## DESAFIO :trophy:
+
+Agora que criou o projeto do total e absoluto zero você precisa praticar, o desafio é o seguinte:
+
+'Você deve desenvolver a página 'CentrosComunicaçao.html' em uma integração para o projeto, colocá-la em funcionamento para isso terá de criar novos métodos, view etc'
+
+Enfim, até mais e boa sorte. 
