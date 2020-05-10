@@ -12,7 +12,7 @@ Passo a passo para a contrução do projeto contido neste repositório. Foco em 
     - [Home](#subancora0);
     - [Shared](#subancora1);
 - [ ] [Configurando o Startup](#ancora7);
-- [ ] [Desafio](#ancora);
+- [ ] [Desafio](#ancora8);
 
 
 
@@ -63,6 +63,7 @@ Nossa aplicação listará casos de acidentes, devemos criar nossos models/model
 
 **Características de um Relato de Acidente:**
 - Nome relator;
+- Email contato;
 - Data ocorrido;
 - Relato em si (texto);
 
@@ -80,8 +81,8 @@ namespace acidenteMarte.Models {
         public string Email {get; set;}
         public DateTime Data {get; set;}
         public string Mensagem {get;set;}
-        
-        //CONSTRUTOR - Método que facilita a criação de objetos;
+
+        //CONSTRUTOR - Método que facilitará a criação de objetos;
         public RelatoModel(string nome, string email, DateTime data, string msg)
         {
             this.NomeRelator = nome;
@@ -123,51 +124,57 @@ namespace acidenteMarte.Controllers{
         List<RelatoModel> listaRelatos = new List<RelatoModel> ();
         
         //Cria cada Relato
-        RelatoModel relato1 = new RelatoModel("a", "a@a.com", DateTime.Now(), "aa");
-        RelatoModel relato2 = new RelatoModel("b", "b@b.com", DateTime.Now(), "bb");
-        RelatoModel relato3 = new RelatoModel("c", "c@c.com", DateTime.Now(), "cc");
-        
-        //Adiciona os relatos nas listas
-        listaRelatos.Add(relato1);
-        listaRelatos.Add(relato2);
-        listaRelatos.Add(relato3);
+        RelatoModel relato1 = new RelatoModel("Jurandir da Silva", "jurandir@gmail.com", DateTime.Now, "Uma casa desabou no Leste");
+        RelatoModel relato2 = new RelatoModel("Fulano da Costa Mendes", "fulano@yahoo.com", DateTime.Now, "A barreria que continha terra desabou");
+        RelatoModel relato3 = new RelatoModel("Isaac Newton Tavares", "isaac@outlook.com", DateTime.Now, "Houve um acidente de trânsito na Avenida Principal");
 ```
 
 3. Dentro da classe criada insira o método **Index()**:
 
 ```C#
-public IActionResult Index(){
-     //Armazenao que será a tag '<title>' do html
-     ViewData["Title"] = "Home - Página Inicial";
-     
-     //Armazena a lista de relatos
-     ViewData["ListaAcidentes"] = listaRelatos;
-     
-     //Direciona para o index.cshtml
-     return View();
+ public IActionResult Index(){
+    //Se houver, chame a lista do repositório
+    //Adicionando relatos na lista
+    listaRelatos.Add(relato1);
+    listaRelatos.Add(relato2);
+    listaRelatos.Add(relato3);
+
+    //ViewData carregam dados para View
+    ViewData["ListaAcidentes"] = listaRelatos;
+    ViewData["Title"] = "Home - Página Inicial";
+    return View();
 } 
 ```
 
 3. Agora vamos criar o método de Cadastro:
 
 - `[HttpPost]` - Define o tipo de [webRequest](http://www.macoratti.net/16/11/c_webreq1.htm), isto é se recebe, envia, atualiza ou deleta dados. 
-- [`IFormCollection`](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformcollection?view=aspnetcore-3.1) - Dados de um `<form>` transportafo pela url.
-- `return View(nomePagina)` - Retorna a página com nome especificado, caso esteja vazio será retornada a página com o nome do método pai.
+- [`IFormCollection`](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformcollection?view=aspnetcore-3.1) - Dados de um `<form>` em **`string`** transportados pela url.
+- [`Parse()`](https://docs.microsoft.com/pt-br/dotnet/api/system.datetime.parse?view=netcore-3.1) - Converte um tipo de váriável para outro. No caso convertemos *string para DateTime*
+- [`ViewData[]`](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/overview?view=aspnetcore-3.1#passing-data-to-views) - Forma de passar dados para View tirar proveito, váriável formemente tipada.
+- [`ViewBag.nomeQualquer`](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/overview?view=aspnetcore-3.1#passing-data-to-views) - Forma alternativa de passar dados para View tirar proveito, váriável fracamente tipada.
+- `View("nomePagina")` - Retorna a página com nome especificado, caso esteja vazio será retornada a página com o nome do método pai.
 
 ```C#
 [HttpPost]
 public IActionResult Cadastrar(IFormCollection formulario){
-    //Cria objeto e atribui valores
-    RelatoModel novoRelato = new RelatoModel();
-    novoRelato.NomeRelator = form["nome"];
-    novoRelato.Email = form["email"];
-    novoRelato.Data = form["data"];
-    novoRelato.Mensagem = form["msg"];
-
+    RelatoModel novoRelato = new RelatoModel(
+        formulario["nome"], 
+        formulario["email"],
+        DateTime.Parse(formulario["data"]),
+        formulario["msg"]
+    );
+            
+    //Se houver, salve objeto pelo repositório
     listaRelatos.Add(novoRelato);
-    return View("Index");
+
+    ViewData["Title"] = "Scania - Sucesso no Cadastro";
+    ViewBag.NomePessoa = novoRelato.NomeRelator;
+    return View("_SucessPage");
 }
 ```
+
+> Em nosso projeto não iremos de fato cadastrar itens pois a cada vez que clicamos no botão 'submit' de um formulário a página recarrega, isso faz com que a nossa lista reinicie com valor nulo. Para o cadastro de fato é necessário de um repositório e um banco de dados que pode ser um '.csv', entretanto não criaremos apenas simularemos o cadastro redirecionando para uma página de sucesso.
 
 <a id="ancora6" />
 
@@ -181,14 +188,15 @@ Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > In
  1. Acesse a página **index.html,** copie o conteúdo da tag ``<main>`` e cole no seu recém-criado **Index.cshtml**. As demais partes como ``<nav>`` ou ``<footer>`` serão colocadas em arquivos diferentes. Nas primeiras linhas do arquivo adicione os seguintes códigos:
 
 ```C#
+@using acidenteMarte.Models;
+
 @{  //Para escrever código C# no arquivo razor use essa estrutura com @{}
     
-    //Isto define usaremos um modelo para página com nome '_Layout.cshtml' 
+    //Define o modelo para página com nome '_Layout.cshtml' 
     Layout = "_Layout";
     
-    //Armazena em uma variável a lista criada no HomeController
-    var listaAcidente = ViewData["ListaAcidentes"];
-
+    //Armazena em uma variável a lista criada no Controller
+    var listaAcidente = (List<RelatoModel>) ViewData["ListaAcidentes"];
 }
 ```
 
@@ -204,17 +212,17 @@ Vamos criar nossa página inicial, para isso crie o arquivo ***Views > Home > In
 <article class="boxLista">
 
     @foreach (var item in listaAcidente)
-    {
-        <div class="itemLista">
-            <div>
-                <h4>@item.NomeRelator</h4>
-                <p>@item.Data</p>
-            </div>
+        {
+            <div class="itemLista">
+                <div>
+                    <h4>@item.NomeRelator</h4>
+                    <p>@item.Data.ToString("dd/MM/yyyy")</p>
+                </div>
 
-            <p>@item.Mensagem</p>
-            <hr />
-        </div>
-      }
+                <p>@item.Mensagem</p>
+                <hr />
+            </div>
+        }
        
 </article>
 ```
@@ -241,7 +249,7 @@ Com a página inicial criada vamos criar o **_HeaderNavBar** e o **_layout**. De
     <h1>Scania</h1>
     <div>
         <ul class="ulMenu">
-            <li class="liMenu"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="liMenu" style="cursor: pointer"><a asp-controller="Home" asp-action="Index">Home</a></li>
             <li class="liMenu"><a href='@Url.Action("Index", "Centros")'>Centros de Comunicação</a></li>
         </ul>
     </div>
@@ -252,7 +260,7 @@ Com a página inicial criada vamos criar o **_HeaderNavBar** e o **_layout**. De
 - [***``asp-action``***](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-3.1#the-form-action-tag-helper) - Define o método que a página será direcionada;
 - [***``@Url.Action``***](https://docs.microsoft.com/en-us/dotnet/api/system.web.mvc.urlhelper.action?view=aspnet-mvc-5.2) - Define o controler e o método que a página será direcionada.
 
-Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para o controller que nos redicionará para a página desejada. 
+Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para o controller definido que nos redicionará para a página desejada. 
 
 
 #### Layout.cshtml
@@ -260,7 +268,6 @@ Obs.: Quando clicarmos em um botão do menu será mandada uma requisição para 
 > O [Layout](https://docs.microsoft.com/pt-br/aspnet/core/mvc/views/layout?view=aspnetcore-3.1#what-is-a-layout) é onde cada seção de uma página se encontra, é também a base da nossa página home. Se navegar pelo arquivo verá que é a estrutura html pendente na página que criamos com a adição de alguns novos conceitos: 
 
 
-- **``@ViewData[]``** - Váriavel que viaja entre Controller e Views e pode armazenar diferentes tipos de dados;
 - **``@RenderBody()``** - Renderiza/carrega o conteúdo das páginas que referenciam o ``_Layout.cshtml``;  
 - **``@RenderSection()``** - Permite determinar se renderiza/carrega seções específicas dentro da página;
 
@@ -272,12 +279,39 @@ Essa estrutura está estilizada conforme o modelo da aplicação pré-criada por
 4. Insira o novo caminho do css dentro ``<link>`` na propriedade **href** substituindo o **'./'** por **'~/'** assim como ``<link href="~/css/globalStyle.css">`` (O til encontra o caminho do arquivo independente do ponto de partida);
 5. Substitua o que está dentro da tag ``<header>`` por:
 
-``` 
+``` C#
 @{
-    //Irá carregar a navBar que criada
+    //Irá carregar a navBar já criada
     Html.RenderPartial("_HeaderNavBar");
+    
+    //OU OPTE POR <partial name="_HeaderNavBar" />  
 }
 ```
+
+
+#### _SucessPage.cshtml
+
+Esta será nossa página de redirecionamento do 'cadastro'
+
+```HTML
+@{
+    Layout = "_Layout";
+    var nome = ViewBag.NomePessoa;
+}
+
+ <section class="sectionCadastro">
+    <div class="divTitle maior">
+        <strong class="destaque maiorD"> @nome </strong>
+        <h2>Agradeçemos pela sua colaboração.</h2>
+        <p>Quanto mais relatos houverem mais teremos controle na situação. Nós da Scannia estamos ao seu lado. </p>
+    </div>
+
+    <div class="divBtn">
+        <a class="btnCad" style="text-align: center" href='@Url.Action("Index","Home")'>Voltar para o Inicio</a>
+    </div>
+</section>
+```
+
 
 Assim deve estar o layout.cshtml:
 
@@ -326,12 +360,17 @@ app.UseMvc(routes =>
 :tada: Parabéns você concluiu o projeto, e persistiu até o final :tada:,  agora rode o projeto com **``dotnet run``** no terminal e aproveie!
 
 
-<a id="ancora7"/>
+<a id="ancora8"/>
 
 ## DESAFIO :trophy:
 
 Agora que criou o projeto do total e absoluto zero você precisa praticar, o desafio é o seguinte:
 
-'Você deve desenvolver a página 'CentrosComunicaçao.html' em uma integração para o projeto, colocá-la em funcionamento para isso terá de criar novos métodos, view etc'
+- Você deve desenvolver a página 'CentrosComunicaçao.cshtml';
+- Você deve desenvolver o CentrosController.cs;
+- Ao cadastrar um centro destruido retorne a mesma página de sucesso com ViewData alterado;
+- Você deve desenvolver uma simples página 'Erro.cshtml' com apenas uma mensagem para que quando ocorra um erro na url ela seja direcionada.
 
+
+Até Mais e bom desenvolvimento ;)
 Enfim, até mais e boa sorte. 
