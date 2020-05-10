@@ -1,0 +1,16 @@
+@{
+    Layout = "_Layout";
+    var nome = ViewBag.NomePessoa;
+}
+
+ <section class="sectionCadastro">
+    <div class="divTitle maior">
+        <strong class="destaque maiorD"> @nome </strong>
+        <h2>Agradeçemos pela sua colaboração.</h2>
+        <p>Quanto mais relatos houverem mais teremos controle na situação. Nós da Scannia estamos ao seu lado. </p>
+    </div>
+
+    <div class="divBtn">
+        <a class="btnCad" style="text-align: center" href='@Url.Action("Index","Home")'>Voltar para o Inicio</a>
+    </div>
+</section>

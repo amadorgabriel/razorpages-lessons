@@ -7,8 +7,7 @@
     <title>Scania - Centros de Comunicação</title>
 
     <link rel="stylesheet" type="text/css" href="./css/globalStyle.css">
-    <!-- INSERIR FAVICON -->
-    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="https://image.flaticon.com/teams/slug/smashicons.jpg">
 </head>
 
 <body>
@@ -19,7 +18,7 @@
             <div>
                 <ul class="ulMenu">
                     <li class="liMenu"><a href="./index.html">Home</a></li>
-                    <li class="liMenu ativoMenu"><a href="./CentrosComunicacao.html">Centros de Comunicação</a></li>
+                    <li class="liMenu"><a href="./CentrosComunicacao.html">Centros de Comunicação</a></li>
                 </ul>
             </div>
         </nav>
@@ -33,13 +32,15 @@
             </div>
 
             <div class="divCadastro">
-                <h3>Conhece algum centro destruido?</h3>
+                <h3>Conhece Algum Centro Destruido?</h3>
                 <form class="formCad" action="">
-                    <input class="inputCad" type="text" placeholder="Endereço" />
-                    <input class="inputCad" type="date" placeholder="Data" name="" id="">
-                    <input class="inputCad textBox" type="text" placeholder="Descreva o ocorrido.." name="" id="">
+                    <input class="inputCad" type="text" required id="nome" name="nome" placeholder="Seu Nome" />
+                    <input class="inputCad" type="email" required placeholder="Email" name="email" id="email">
+                    <input class="inputCad" type="text" required placeholder="Endereço" id="endereco" name="endereco" />
+                    <input class="inputCad" type="date" required placeholder="Data" name="data" id="data">
+                    <input class="inputCad textBox" type="text" required placeholder="Descreva o ocorrido.." name="text" id="text">
 
-                    <input class="btnCad" type="button" value="Informe-nos" />
+                    <input class="btnCad" type="submit" value="Informe-nos" />
                 </form>
             </div>
         </section>

@@ -7,8 +7,7 @@
     <title>Scania - Home Page</title>
 
     <link rel="stylesheet" type="text/css" href="./css/globalStyle.css">
-    <!-- INSERIR FAVICON -->
-    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="https://image.flaticon.com/teams/slug/smashicons.jpg">
 </head>
 
 <body>
@@ -18,7 +17,7 @@
             <h1>Scania</h1>
             <div>
                 <ul class="ulMenu">
-                    <li class="liMenu ativoMenu"><a href="./index.html">Home</a></li>
+                    <li class="liMenu" style="cursor: pointer"><a href="./index.html">Home</a></li>
                     <li class="liMenu"><a href="./CentrosComunicacao.html">Centros de Comunicação</a></li>
                 </ul>
             </div>
@@ -35,12 +34,12 @@
             <div class="divCadastro">
                 <h3>Relate Casos de acidentes</h3>
                 <form class="formCad" action="">
-                    <input class="inputCad" type="text" placeholder="Nome" />
-                    <input class="inputCad" type="email" placeholder="Email" name="" id="">
-                    <input class="inputCad" type="date" placeholder="Data" name="" id="">
-                    <input class="inputCad textBox" type="text" placeholder="Descreva o ocorrido.." name="" id="">
-
-                    <input class="btnCad" type="button" value="Informe-nos" />
+                    <input class="inputCad" type="text" required id="nome" name="nome" placeholder="Nome" />
+                    <input class="inputCad" type="email" required placeholder="Email" name="email" id="email">
+                    <input class="inputCad" type="date" required placeholder="Data" name="data" id="data">
+                    <input class="inputCad textBox" type="text" required placeholder="Descreva o ocorrido.." name="msg" id="msg">
+        
+                    <input class="btnCad" type="submit" value="Informe-nos" />
                 </form>
             </div>
         </section>

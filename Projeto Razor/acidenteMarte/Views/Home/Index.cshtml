@@ -1,7 +1,10 @@
+@using acidenteMarte.Models;
+
 @{  //Para escrever código C# no arquivo razor use essa estrutura com @{}
     
     Layout = "_Layout";
-    //Isto define que a página irá pegar o conteúdo do arquivo e transformar em html puro.
+    var listaAcidente = (List<RelatoModel>) ViewData["ListaAcidentes"];
+
 }
     
 <section class="sectionCadastro">
@@ -12,13 +15,13 @@
 
     <div class="divCadastro">
         <h3>Relate Casos de acidentes</h3>
-        <form class="formCad" action="">
-            <input class="inputCad" type="text" placeholder="Nome" />
-            <input class="inputCad" type="email" placeholder="Email" name="" id="">
-            <input class="inputCad" type="date" placeholder="Data" name="" id="">
-            <input class="inputCad textBox" type="text" placeholder="Descreva o ocorrido.." name="" id="">
+        <form class="formCad" method="POST" action='@Url.Action("Cadastrar","Home")'>
+            <input class="inputCad" type="text" required id="nome" name="nome" placeholder="Nome" />
+            <input class="inputCad" type="email" required placeholder="Email" name="email" id="email">
+            <input class="inputCad" type="date" required placeholder="Data" name="data" id="data">
+            <input class="inputCad textBox" type="text" required placeholder="Descreva o ocorrido.." name="msg" id="msg">
 
-            <input class="btnCad" type="button" value="Informe-nos" />
+            <input class="btnCad" type="submit" value="Informe-nos" />
         </form>
     </div>
 </section>
@@ -35,38 +38,20 @@
     </div>
 
     <article class="boxLista">
-        <div class="itemLista">
-            <div>
-                <h4>Edna Cavalcante Mendes</h4>
-                    <p>12/03/2020</p>
-            </div>
 
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
-                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
-                molestias.</p>
-            <hr />
-        </div>
-        <div class="itemLista">
-            <div>
-                <h4>Edna Cavalcante Mendes</h4>
-                <p>12/03/2020</p>
-            </div>
+        @foreach (var item in listaAcidente)
+        {
+            <div class="itemLista">
+                <div>
+                    <h4>@item.NomeRelator</h4>
+                    <p>@item.Data.ToString("dd/MM/yyyy")</p>
+                </div>
 
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
-                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
-                molestias.</p>
-            <hr/>
-        </div>
-        <div class="itemLista">
-            <div>
-                <h4>Edna Cavalcante Mendes</h4>
-                <p>12/03/2020</p>
+                <p>@item.Mensagem</p>
+                <hr />
             </div>
-
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem nisi placeat dicta unde animi
-                officia fugit dolor? Voluptatum eum esse ea aut ex debitis sed magnam, doloribus ullam ipsum
-                molestias.</p>
-        </div>
+        }
+       
     </article>
 </section>        
     

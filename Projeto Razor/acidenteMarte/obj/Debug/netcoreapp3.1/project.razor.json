@@ -20531,6 +20531,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\naldo\\OneDrive\\Documentos\\Gabriel Rodrigues Amador\\SENAI\\Monitoria\\RazorPages_2020_T1\\Projeto Razor\\acidenteMarte\\Views\\Shared\\_SucessPage.cshtml",
+      "TargetPath": "Views\\Shared\\_SucessPage.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\naldo\\OneDrive\\Documentos\\Gabriel Rodrigues Amador\\SENAI\\Monitoria\\RazorPages_2020_T1\\Projeto Razor\\acidenteMarte\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
       "FileKind": "mvc"

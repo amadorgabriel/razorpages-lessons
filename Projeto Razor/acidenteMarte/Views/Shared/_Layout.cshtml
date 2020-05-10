@@ -4,18 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]"</title>
+    <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" type="text/css" href="~/css/globalStyle.css">
+    <link rel="shortcut icon" href="https://image.flaticon.com/teams/slug/smashicons.jpg">
+
 </head>
 
 <body>
     <header>
-        @* @{
+        @{
             Html.RenderPartial("_HeaderNavBar");
-        }  *@
+        }  
 
-        <partial name="_HeaderNavBar.cshtml" >
+        @* OU OPTE POR <partial name="_HeaderNavBar" /> *@   
+        
     </header>
 
     <main>
